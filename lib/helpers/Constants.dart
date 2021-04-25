@@ -5,6 +5,7 @@ const homePageTag = 'Home Page';
 const RegisterPageTag = 'Register Page';
 const PagesHomeTag = 'PagesHome Page';
 
+
 final buttonTextStyle = TextStyle(letterSpacing: 28.0);
 
 // Colors
@@ -20,8 +21,10 @@ const RegisterButtonText = "Register";
 const homePageButtonText = "HomePage";
 const pagesHomeButtonText = "PagesHome";
 
+
+
 // Images
-Image appLogo = Image.asset('assets/images/drug.jpg');
+Image appLogo = Image.asset('assets/images/drug_icon.png');
 
 // Sizes
 const bigRadius = 66.0;

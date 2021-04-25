@@ -1,6 +1,9 @@
+//登入後Home顯示的介面
 import 'package:flutter/material.dart';
 import 'helpers/placeholder_widget.dart';
 import 'helpers/Constants.dart';
+import 'package:flutter3_22/utils/auth_helper.dart';
+import 'PagesHome.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,8 +23,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
-    // 3c
     final PageHomeButton = Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: SizedBox(
@@ -43,6 +44,12 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.logout),
+          onPressed: () {
+            AuthHelper.logOut();
+          },
+        ),
         title: Text('智慧藥盒'),
         centerTitle: true,
       ),
@@ -55,10 +62,8 @@ class _HomePageState extends State<HomePage> {
           new BottomNavigationBarItem(
             icon: Icon(Icons.home),
             title: Text('Home'),
-            onPressed: () {
-              Navigator.pushNamed(
-                  context, '/register');
-            },
+
+
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.mail),

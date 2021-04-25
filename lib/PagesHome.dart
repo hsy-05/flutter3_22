@@ -1,3 +1,4 @@
+//當按下Home按鈕時，出現的介面
 import 'package:flutter/material.dart';
 import 'helpers/Constants.dart';
 
@@ -36,7 +37,7 @@ class _PagesHomeState extends State<PagesHome> {
                   tag: "main-logo",
                   child: SizedBox(
                     height: 80,
-                    child: Image.asset('assets/images/drug.jpg'),
+                    child: appLogo,
                   ),
                 ),
                 Padding(

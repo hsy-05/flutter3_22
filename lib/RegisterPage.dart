@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 import 'helpers/Constants.dart';
+import 'package:flutter3_22/utils/auth_helper.dart';
 
+//註冊畫面
 class RegisterPage extends StatefulWidget {
-  RegisterPage({Key key}) : super(key: key);
-
+  @override
   _RegisterPageState createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  TextEditingController _pwdController = new TextEditingController();
-  TextEditingController _repwdController = new TextEditingController();
-  TextEditingController _pnController = new TextEditingController();
-  GlobalKey _formKey = new GlobalKey<FormState>();
+  TextEditingController _emailController;
+  TextEditingController _passwordController;
+  TextEditingController _confirmPasswordController;
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController = TextEditingController(text: "");
+    _passwordController = TextEditingController(text: "");
+    _confirmPasswordController = TextEditingController(text: "");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   tag: "main-logo",
                   child: SizedBox(
                     height: 80,
-                    child: Image.asset('assets/images/drug.jpg'),
+                    child: appLogo,
                   ),
                 ),
                 Padding(
@@ -57,32 +66,26 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(left: 60, right: 60),
-                        child: Form(
-                          key: _formKey,
-                          autovalidate: false,
+                        key: _formKey,
                           child: Column(
                             children: <Widget>[
                               TextFormField(
-                                controller: _pnController,
+                                controller: _emailController,
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.fromLTRB(
                                       20.0, 15.0, 20.0, 15.0),
-                                  labelText: "手機號碼",
+                                  labelText: "信箱帳號",
+                                  hintText: "請輸入信箱帳號",
                                   border: OutlineInputBorder(
                                       borderRadius:
                                       BorderRadius.circular(32.0)),
                                 ),
-                                validator: (v) {
-                                  return v.trim().length == 10
-                                      ? null
-                                      : "請輸入手機號碼";
-                                },
                               ),
                               SizedBox(
                                 height: 32,
                               ),
                               TextFormField(
-                                  controller: _pwdController,
+                                  controller: _passwordController,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.fromLTRB(
                                         20.0, 15.0, 20.0, 15.0),
@@ -93,34 +96,25 @@ class _RegisterPageState extends State<RegisterPage> {
                                     hintText: "請輸入至少6位密碼",
                                   ),
                                   obscureText: true,
-                                  validator: (v) {
-                                    return v.trim().length > 5
-                                        ? null
-                                        : "密碼不能少於6位";
-                                  }),
+                              ),
                               SizedBox(
                                 height: 32,
                               ),
                               TextFormField(
-                                  controller: _repwdController,
+                                  controller: _confirmPasswordController,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.fromLTRB(
                                         20.0, 15.0, 20.0, 15.0),
                                     border: OutlineInputBorder(
                                         borderRadius:
                                         BorderRadius.circular(32.0)),
-                                    labelText: "請再次輸入密碼",
+                                    labelText: "再次輸入密碼",
+                                    hintText: "請再次輸入密碼",
                                   ),
                                   obscureText: true,
-                                  validator: (_) {
-                                    if (_repwdController.text !=
-                                        _pwdController.text) {
-                                      return "兩次輸入的密碼錯誤";
-                                    }
-                                  }),
+                                  ),
                             ],
                           ),
-                        ),
                       ),
                       SizedBox(
                         height: 32,
@@ -136,9 +130,12 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(32)),
-                            onPressed: () {
-                              if ((_formKey.currentState as FormState)
-                                  .validate()) {
+
+                            onPressed: () async {
+                              try {
+                                final user = await AuthHelper.signupWithEmail(
+                                    email: _emailController.text,
+                                    password: _passwordController.text);
                                 showDialog<Null>(
                                   context: context,
                                   barrierDismissible: false,
@@ -166,6 +163,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ).then((val) {
                                   print(val);
                                 });
+                              }catch (e) {
+                                print(e);
                               }
                             },
                           ),
@@ -175,8 +174,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ],
               ),
-            )
-          ],
+            )],
         ),
       ),
     );
